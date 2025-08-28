@@ -1,0 +1,43 @@
+<mujoco>
+  <!-- Assets (textures & materials) -->
+  <asset>
+    <!-- Update these file paths if your texture folder differs -->
+    <texture name="T_simpleWoodTable" type="cube" height="1" width="1"
+             file="assets/wood1.png"/>
+    <material name="M_simpleWoodTable" texture="T_simpleWoodTable"
+              rgba="0.8 0.8 0.8 1" shininess="0.2" reflectance="0.3" texuniform="false"/>
+  </asset>
+
+  <!-- Defaults used by the table body -->
+  <default>
+    <default class="viz_simpleWoodTable">
+      <geom group="1" contype="0" conaffinity="0" type="mesh" material="M_simpleWoodTable"/>
+    </default>
+    <default class="body_simpleTable">
+      <geom contype="1" conaffinity="1" group="4" rgba=".4 .5 .6 1"/>
+      <joint limited="true" damping="1" frictionloss="0.5" armature=".01"/>
+    </default>
+  </default>
+
+  <!-- The table geometry -->
+  <worldbody>
+    <!-- Place the table at x=0.70 so it’s next to the UR5e base at the origin -->
+    <body name="simpleWoodTable" pos="0.70 0 0" childclass="body_simpleTable">
+      <!-- Visual geoms (use viz_* classes if you want textured mesh geoms; here we keep boxes for simplicity) -->
+      <geom class="viz_simpleWoodTable" type="box" size=".6 .375 .025" pos="0 0 0.335"/>
+      <geom class="viz_simpleWoodTable" type="box" size="0.59 0.26 .05" pos="0 0 0.26"/>
+      <geom class="viz_simpleWoodTable" type="box" size="0.025 0.025 0.105" pos="-0.565 0.235 0.105"/>
+      <geom class="viz_simpleWoodTable" type="box" size="0.025 0.025 0.105" pos="-0.565 -0.235 0.105"/>
+      <geom class="viz_simpleWoodTable" type="box" size="0.025 0.025 0.105" pos="0.565 0.235 0.105"/>
+      <geom class="viz_simpleWoodTable" type="box" size="0.025 0.025 0.105" pos="0.565 -0.235 0.105"/>
+
+      <!-- Collidable geoms -->
+      <geom type="box" size=".6 .375 .025" pos="0 0 0.335" mass="40"/>
+      <geom type="box" size="0.59 0.26 .05" pos="0 0 0.26"/>
+      <geom type="box" size="0.025 0.025 0.105" pos="-0.565 0.235 0.105"/>
+      <geom type="box" size="0.025 0.025 0.105" pos="-0.565 -0.235 0.105"/>
+      <geom type="box" size="0.025 0.025 0.105" pos="0.565 0.235 0.105"/>
+      <geom type="box" size="0.025 0.025 0.105" pos="0.565 -0.235 0.105"/>
+    </body>
+  </worldbody>
+</mujoco>

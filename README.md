@@ -28,99 +28,9 @@ Follow the instructions for your operating system.
 
 ---
 
-### **Ubuntu / Linux (20.04+)**
-
-#### Install dependencies
-```bash
-sudo apt update
-sudo apt install -y git wget unzip libosmesa6-dev libgl1-mesa-dev libglfw3
-```
-
-#### Download and install MuJoCo 3.x
-```bash
-wget https://github.com/google-deepmind/mujoco/releases/download/3.1.6/mujoco-3.1.6-linux-x86_64.tar.gz
-mkdir -p $HOME/.mujoco
-tar -xzf mujoco-3.1.6-linux-x86_64.tar.gz -C $HOME/.mujoco
-```
-
-#### Set environment variables (add to ~/.bashrc for persistence)
-```bash
-export MUJOCO_DIR=$HOME/.mujoco/mujoco-3.1.6
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MUJOCO_DIR/lib
-export PATH=$PATH:$MUJOCO_DIR/bin
-```
-
-Test installation:
-
-```bash
-$MUJOCO_DIR/bin/simulate
-```
-
----
-
-### **Windows 10/11**
-
-1. Download the latest **MuJoCo** release from:  
-   [https://github.com/google-deepmind/mujoco/releases](https://github.com/google-deepmind/mujoco/releases)
-
-2. Extract the `.zip` file to a location of your choice, for example:  
-   `C:\mujoco\mujoco-3.1.6`
-
-3. Add MuJoCo to your **PATH**:  
-   - Press `Win + S` → Search for “Environment Variables” → Open  
-   - Under *System Variables*, find **Path** → Edit → Add:  
-     `C:\mujoco\mujoco-3.1.6\bin`
-
-4. Test by opening **Command Prompt** and running:  
-   ```bash
-   simulate.exe
-   ```
-
----
-
-### **macOS (Intel or Apple Silicon)**
-
-#### Install dependencies (Homebrew required)
-```bash
-brew install glfw
-```
-
-#### Download MuJoCo
-```bash
-curl -L -o mujoco-macos.tar.gz https://github.com/google-deepmind/mujoco/releases/download/3.1.6/mujoco-3.1.6-macos-universal2.tar.gz
-mkdir -p $HOME/.mujoco
-tar -xzf mujoco-macos.tar.gz -C $HOME/.mujoco
-```
-
-#### Set environment variables (add to ~/.zshrc for persistence)
-```bash
-export MUJOCO_DIR=$HOME/.mujoco/mujoco-3.1.6
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$MUJOCO_DIR/lib
-export PATH=$PATH:$MUJOCO_DIR/bin
-```
-
-Test installation:
-
-```bash
-simulate
-```
-
----
-
 ### Clone the Repository
 
-```bash
-git clone <repository_url>
-cd Intro_to_Robotics
-```
-
----
-
-### Install Python Dependencies
-
-```bash
-pip install numpy matplotlib scipy mujoco
-```
+Use the option of "Use this template" in GitHub.
 
 ---
 
@@ -216,18 +126,6 @@ Topics: System design and reporting.
 **Naming Conventions**:
 - Do not change the folder structure or filenames.
 - Include comments in your Python files for any changes you make.
-
----
-
-## Common Issues & Fixes
-
-| Issue | Possible Fix |
-|-------|--------------|
-| **GLXBadContext** or blank simulation window on Linux | Install OpenGL/Mesa drivers: `sudo apt install mesa-utils` |
-| **ModuleNotFoundError: 'mujoco'** | Make sure you installed MuJoCo in the same Python environment: `pip install mujoco` |
-| **Simulation window not opening** | Check that `LD_LIBRARY_PATH` (Linux) or `DYLD_LIBRARY_PATH` (macOS) includes `$MUJOCO_DIR/lib` |
-| **Permission denied on simulate.exe (Windows)** | Ensure you extracted MuJoCo to a folder you own, not `C:\Program Files` |
-| **XML model not found** | Verify the file path in your script matches the actual model location |
 
 ---
 

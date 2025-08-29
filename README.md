@@ -12,8 +12,7 @@ This repository contains all the materials, assignments, and code examples neede
 3. [Repository Structure](#repository-structure)  
 4. [Assignments Overview](#assignments-overview)  
 5. [Submission Guidelines](#submission-guidelines)  
-6. [Common Issues & Fixes](#common-issues--fixes)  
-7. [Resources](#resources)  
+6. [Resources](#resources)  
 
 ---
 
@@ -38,7 +37,7 @@ Use the option of "Use this template" in GitHub.
 
 To verify your installation and run your first MuJoCo simulation, you can launch a UR5 example model:
 
-1. Ensure you have a UR5 model file (`ur5e_scene.xml`) in a `models/` folder.  
+1. Ensure you have a UR5 model file (`scene.xml`).  
 2. Run the following test script:
 
 ```python
@@ -46,7 +45,7 @@ import mujoco
 import mujoco.viewer
 
 # Load the model
-model = mujoco.MjModel.from_xml_path("models/ur5e_scene.xml")
+model = mujoco.MjModel.from_xml_path("scene.xml")
 data = mujoco.MjData(model)
 
 # Launch the viewer
@@ -79,7 +78,6 @@ Intro_to_Robotics/
 ```
 
 Each assignment includes:
-- **PDF file** – Detailed problem statements.
 - **Python files** – Starter code for students to complete.
 
 ---
@@ -110,18 +108,13 @@ Topics: Motion planning and trajectory generation.
 - Generate 6D interpolating polynomials for trajectories.
 
 ### Assignment 5  
-Topics: System design and reporting.
-- Design a robotic system to solve a given task.
-- Provide schematics, flowcharts, and discuss challenges.
+Under development
 
 ---
 
 ## Submission Guidelines
 
-- Create a directory for each assignment (e.g., `HW1`, `HW2`).
-- Inside each directory, create subfolders for each question (`Q1`, `Q2`).
-- Save handwritten or image-based answers as PDFs in their respective folders.
-- Zip the assignment directory (e.g., `HW1.zip`) and upload it to Canvas.
+Please, utilize the provided template code and submit through Canvas as a zip folder. For example, the first assignment folder is Assignment\_1, zip that folder and submit through Canvas.
 
 **Naming Conventions**:
 - Do not change the folder structure or filenames.

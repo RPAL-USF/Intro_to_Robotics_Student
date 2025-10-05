@@ -7,7 +7,6 @@ if ROOT not in sys.path:
     sys.path.append(ROOT)
 
 from Core.simulation import Simulation
-from Core.utils import random_joint_angles
 from Assignment_2.Q6.q6 import FK
 
 MODEL_PATH = "Scene/scene.xml"
@@ -16,7 +15,7 @@ JOINT_COUNT = 6
 # ---------- DRIVER ----------
 def main():
     rng = np.random.default_rng(42)
-    sweep_qs = random_joint_angles(num_poses=1, num_joints=JOINT_COUNT, deg_range=60.0, rng=rng)
+    sweep_qs = # TO DO: Random angles. [[q1,q2,q3,...],[q1,q2,q3,...],...]
 
     with Simulation(MODEL_PATH, show_viewer=False, realtime=True, seed=0) as sim:
         with mujoco.viewer.launch_passive(sim.model, sim.data) as viewer:

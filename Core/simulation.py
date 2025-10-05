@@ -22,6 +22,7 @@ Students should *not* modify this file.
 from __future__ import annotations
 
 import os
+import sys
 import time
 from pathlib import Path
 from typing import Callable, Optional
@@ -29,6 +30,10 @@ from typing import Callable, Optional
 import numpy as np
 import mujoco
 import mujoco.viewer
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.append(ROOT)
 
 
 class Simulation:
@@ -79,6 +84,15 @@ class Simulation:
 
         # For clean context-manager handling
         self._opened = False
+
+        MODEL_PATH = os.path.join(ROOT, "Core", "Scene", "scene.xml")
+        SITE_NAME  = "attachment_site"
+
+        JOINTS = ["shoulder_pan_joint","shoulder_lift_joint","elbow_joint",
+                "wrist_1_joint","wrist_2_joint","wrist_3_joint"]
+
+        # If using position actuators that map 1-1 to joints, list them (optional)
+        ACTS   = ["shoulder_pan","shoulder_lift","elbow","wrist_1","wrist_2","wrist_3"]
 
     # ---------- Public API ----------
 
@@ -201,6 +215,49 @@ class Simulation:
         """Cleanup (mainly for symmetry; viewer is context-managed in run())."""
         self._viewer = None
 
+    # --- Joint helpers ---
+    def set_first_n_qpos(self, n: int, q: np.ndarray) -> None:
+        """Copy q[:n] into the first n generalized positions and forward."""
+        if q.shape[0] < n:
+            raise ValueError(f"q has len {len(q)} < n={n}")
+        self.data.qpos[:n] = q[:n]
+        mujoco.mj_forward(self.model, self.data)
+
+    def set_named_qpos(self, joint_names: list[str], q: np.ndarray) -> None:
+        """Set qpos by joint names (order follows joint_names)."""
+        if len(joint_names) != len(q):
+            raise ValueError("joint_names and q must have same length")
+        for name, val in zip(joint_names, q):
+            jid = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, name)
+            if jid < 0:
+                raise RuntimeError(f"Joint not found: {name}")
+            self.data.qpos[jid] = float(val)
+        mujoco.mj_forward(self.model, self.data)
+
+    def q_slice(self, joint_ids):
+        return np.array([self.data.qpos[j] for j in joint_ids], dtype=float)
+
+    # --- Sites / kinematics ---
+    def get_site_transform(self, site_name: str) -> np.ndarray:
+        """Return a 4x4 transform of a named site."""
+        sid = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
+        if sid < 0:
+            raise RuntimeError(f"Site not found: {site_name}")
+        T = np.eye(4)
+        T[:3, :3] = self.data.site_xmat[sid].reshape(3, 3)
+        T[:3,  3] = self.data.site_xpos[sid]
+        return T
+
+    # --- Contacts / collision ---
+    def has_collision(self) -> bool:
+        """Return True if the current state has any contacts."""
+        data_for_collision = mujoco.MjData(self.model)
+        #data_for_collision.qpos[:] = self.data.qpos
+        mujoco.mj_forward(self.model, data_for_collision)
+        mujoco.mj_collision(self.model, data_for_collision)
+        return self.data.ncon > 0
+
+
     # ---------- Context manager support ----------
 
     def __enter__(self) -> "Simulation":
@@ -238,3 +295,4 @@ class Simulation:
 
         # Nothing worked; return the original so caller sees the intended path in the error
         return p
+

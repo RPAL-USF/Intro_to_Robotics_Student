@@ -1,0 +1,7 @@
+<mujocoinclude>
+  <asset>
+    <mesh    name="tomato_soup_can_mesh" file="assets/005_tomato_soup_can.msh" scale="1 1 1"/>
+    <texture name="tomato_soup_can_tex"  type="2d" file="assets/005_tomato_soup_can.png"/>
+    <material name="tomato_soup_can_mat" texture="tomato_soup_can_tex"/>
+  </asset>
+</mujocoinclude>
